@@ -1,0 +1,38 @@
+{% extends 'customer/base.html' %}
+
+{% block content %}
+        <script>
+        function customer_remove() {
+            var result = confirm("Customer를 삭제하시겠습니까?");
+            if (result) {
+                var remove_url = "{% url 'customer_remove' pk=customer.pk %}";
+                document.location.href = remove_url;
+            }
+        }
+    </script>
+
+    <div class="post">
+        {% if user.is_authenticated %}
+            <div>
+                <a class="btn btn-default" href="{% url 'customer_edit' pk=customer.pk %}">
+                    <span>수정</span>
+                </a>
+                <a class="btn btn-default" href="#" onclick="customer_remove()">
+                    <span>삭제</span>
+                </a>
+            </div>
+        {% endif %}
+        <h1> {{ customer.name }} </h1>
+        <p>이메일: {{ customer.email }}</p>
+        <div class="date">
+            <p>생년월일: {{ customer.birthday }}</p>
+        </div>
+        <p>주소지 : {{ customer.address }}</p>
+        <p>학년: {{ customer.degree }}학년</p>
+        {% if customer.gender is True %}
+            <p>성별: 남자</p>
+        {% else %}
+            <p>성별: 여자</p>
+        {% endif %}
+    </div>
+{% endblock %}

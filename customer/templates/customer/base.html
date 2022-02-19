@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Customer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext">
+    <link rel="stylesheet" href="{% static 'css/customer.css' %}">
+</head>
+
+<body>
+    <script>
+        function logout() {
+            var result = confirm("로그아웃을 하시겠습니까?")
+            if(result){
+                var logout_url = "{% url 'logout' %}?next='customer_list' pk=customer.pk";
+                document.location.href = logout_url
+            }
+        }
+    </script>
+
+    <div class="page-header">
+        {% if user.is_authenticated %}
+            <p style="font-size:20px" class="top-menu"> {{ user.username }}님 안녕하십니까.
+                <small>
+                    (<a href="" onclick=logout()>로그아웃</a>)
+                </small>
+            </p>
+        {% else %}
+            <a href="{% url 'login' %}" class="top-menu">
+                <span class="glyphicon glyphicon-log-in"></span>
+            </a>
+        {% endif %}
+        <h1><a href="{% url 'customer_list' %}">고객관리 홈페이지</a></h1>
+    </div>
+    <!-- HTML 주석 -->
+    {# 파이썬 주석1 #}
+    {% comment %} 파이썬 주석2 {% endcomment %}
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
